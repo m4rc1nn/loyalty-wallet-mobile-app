@@ -1,0 +1,53 @@
+import React, {createContext, useState, useEffect, useContext} from 'react'
+import {
+	GOOGLE_WEB_CLIENT_ID,
+	GOOGLE_ANDROID_CLIENT_ID,
+	GOOGLE_IOS_CLIENT_ID,
+} from '@env';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+	webClientId: GOOGLE_WEB_CLIENT_ID,
+	androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+	iosClientId: GOOGLE_IOS_CLIENT_ID,
+});
+
+export const AuthContext = createContext([]);
+
+export default function AuthContextProvider({children}) {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const silentLogIn = async () => {
+    try {
+      const userInfo = await GoogleSignin.signInSilently();
+      console.log(userInfo);
+      setLoggedIn(true);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+        setLoggedIn(false);
+      } else {
+        // some other error
+      }
+    }
+  }
+
+  useEffect(() => {
+    silentLogIn();
+  }, [])
+  
+  return (
+    <AuthContext.Provider value={{ loggedIn, setLoggedIn, loading }}>
+      { children }
+    </AuthContext.Provider>
+  )
+}
+
+export function useAuth() {
+  const {loggedIn, loading} = useContext(AuthContext);
+
+  return {loggedIn: loggedIn, loading: loading};
+}

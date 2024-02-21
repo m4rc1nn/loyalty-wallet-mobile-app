@@ -1,21 +1,11 @@
 import 'react-native-gesture-handler';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import MainDrawerNavigator from './src/navigators/MainDrawerNavigator';
+import AuthContextProvider from './src/contexts/AuthContext';
+import MainComponent from './src/components/MainComponent';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MainDrawerNavigator />
-    </NavigationContainer>
+    <AuthContextProvider>
+      <MainComponent />
+    </AuthContextProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

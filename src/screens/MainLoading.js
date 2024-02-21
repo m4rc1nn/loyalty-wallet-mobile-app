@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function UserCards() {
+export default function MainLoading() {
   return (
     <View style={styles.container}>
-      <Text>User Cards</Text>
+      <Text>Loading...</Text>
     </View>
   )
 }
