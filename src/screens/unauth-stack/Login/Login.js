@@ -1,28 +1,34 @@
+// Libraries & Components
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
-import { AuthContext } from '../../contexts/AuthContext';
+
+// Contexts
+import { AuthContext } from '../../../contexts/AuthContext';
+import { UserDataContext } from '../../../contexts/UserDataContext';
+
+// Scripts
+import { sendUserCredentials } from '../../../scripts/initialLogin';
+
 
 export default function Login() {
   const { setLoggedIn } = useContext(AuthContext);
+  const { setUser } = useContext(UserDataContext);
 
   const login = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log(userInfo.user);
-      setLoggedIn(true);
+      sendUserCredentials(userInfo.idToken, userInfo.email, userInfo.name)
+        .then((res) => {
+          if (res !== 'error') {
+            setUser(res);
+            setLoggedIn(true);
+          }
+        })
     } catch (error) {
       console.error(error);
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
     }
   }
 

@@ -1,10 +1,16 @@
+// Libraries & Components
 import React, {createContext, useState, useEffect, useContext} from 'react'
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
+// Env variables
 import {
 	GOOGLE_WEB_CLIENT_ID,
 	GOOGLE_ANDROID_CLIENT_ID,
 	GOOGLE_IOS_CLIENT_ID,
 } from '@env';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
+// Scripts
+import { sendUserCredentials } from '../scripts/initialLogin';
 
 GoogleSignin.configure({
 	webClientId: GOOGLE_WEB_CLIENT_ID,
@@ -21,17 +27,18 @@ export default function AuthContextProvider({children}) {
   const silentLogIn = async () => {
     try {
       const userInfo = await GoogleSignin.signInSilently();
-      console.log(userInfo);
-      setLoggedIn(true);
-      setLoading(false);
+      sendUserCredentials(userInfo.idToken, userInfo.user.email, userInfo.user.name)
+        // .then((res) => {
+        //   if (res !== 'error') {
+        //     setUser(res);
+        //     setLoggedIn(true);
+        //     setLoading(false);
+        //   }
+        // })
     } catch (error) {
       console.error(error);
       setLoading(false);
-      if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-        setLoggedIn(false);
-      } else {
-        // some other error
-      }
+      setLoggedIn(false);
     }
   }
 
