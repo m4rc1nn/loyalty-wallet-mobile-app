@@ -11,7 +11,7 @@ import { UserDataContext } from '../../../contexts/UserDataContext';
 import { displayUsersFirstName } from './helper';
 
 // Components
-import GenerateTempCodeButton from '../../../components/GenerateTempCodeButton';
+import GenerateTempCodeButton from '../../../components/temp-code/GenerateTempCodeButton';
 
 export default function UserCards() {
   const { setLoggedIn } = useContext(AuthContext);

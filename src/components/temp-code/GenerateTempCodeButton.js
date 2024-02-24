@@ -1,17 +1,27 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React, { useState } from 'react';
 
-import axiosInstance from '../axios';
+import axiosInstance from '../../axios';
+
+//Components
+import TempCodeModal from './TempCodeModal';
 
 export default function GenerateTempCodeButton() {
-  const [tempCode, setTempCode] = useState(null);
+  const [tempCode, setTempCode] = useState({code: null, expires: null});
+  const [showModal, setShowModal] = useState(false);
 
-  const getTempCode = async () => {
+  const showTempCode = async () => {
+    if (tempCode && new Date(tempCode.expires) > new Date()) {
+      setShowModal(true);
+      return;
+    }
     axiosInstance.post('/temp-code')
       .then((response) => {
-        console.log(response.data.tempCode.code);
-        console.log(new Date(response.data.tempCode.expires))
-        setTempCode(response.data.tempCode.code);
+        setTempCode({
+          code: response.data.tempCode.code,
+          expires: response.data.tempCode.expires
+        });
+        setShowModal(true);
       })
       .catch((error) => {
         console.error(error);
@@ -20,6 +30,7 @@ export default function GenerateTempCodeButton() {
 
   return (
     <View style={styles.container}>
+      <TempCodeModal showModal={showModal} setShowModal={setShowModal} code={tempCode} changeTempCode={setTempCode} />
       <Pressable
         style={({pressed}) => [
           {
@@ -27,7 +38,7 @@ export default function GenerateTempCodeButton() {
           },
           styles.button,
         ]}
-        onPress={getTempCode}
+        onPress={showTempCode}
       >
         <Text style={styles.buttonText}>Pokaż kod</Text>
       </Pressable>
