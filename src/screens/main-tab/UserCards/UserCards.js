@@ -4,9 +4,11 @@ import React, { useContext, useEffect } from 'react'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 // Contexts
-import { AuthContext } from '../../contexts/AuthContext';
-import { UserDataContext } from '../../contexts/UserDataContext';
+import { AuthContext } from '../../../contexts/AuthContext';
+import { UserDataContext } from '../../../contexts/UserDataContext';
 
+// Scripts
+import { displayUsersFirstName } from './helper';
 
 export default function UserCards() {
   const { setLoggedIn } = useContext(AuthContext);
@@ -25,7 +27,7 @@ export default function UserCards() {
     <View style={styles.container}>
       <View style={styles.topBar}>
         <Text>
-          Cześć, {user.name}
+          Cześć, {displayUsersFirstName(user.name)}
         </Text>
         <Pressable onPress={signOut}>
           <Text>Sign out</Text>
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     position: 'absolute',
+    width: '100%',
     top: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',

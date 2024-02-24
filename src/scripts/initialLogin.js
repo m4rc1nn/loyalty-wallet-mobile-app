@@ -1,21 +1,19 @@
 import axiosInstance from "../axios";
 
-export const sendUserCredentials = (idToken, email, name) => {
-  axiosInstance.post('/auth/user/login', {
+export const sendUserCredentials = async (idToken, email) => {
+  const response = await axiosInstance.post('/auth/user/login', {
     authToken: idToken,
-    email: email,
-    name: name
+    email: email
   }).then((response) => {
-    console.log(response.data)
     if (response.status === 200) {
       setUserBearerToken(response.token);
-      //console.log(response.user);
-      return response.user;
+      return response.data.user;
     }
   }).catch((err) => {
-    console.error(err.toJSON());
+    console.error(err);
     return 'error';
   })
+  return response;
 }
 
 const setUserBearerToken = (token) => {

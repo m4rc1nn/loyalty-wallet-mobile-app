@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import UserCards from '../screens/main-tab/UserCards';
+import UserCards from '../screens/main-tab/UserCards/UserCards';
 
 const Tab = createBottomTabNavigator();
 

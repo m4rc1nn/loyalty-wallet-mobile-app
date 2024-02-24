@@ -5,10 +5,10 @@ import MainComponent from './src/components/MainComponent';
 
 export default function App() {
   return (
-    <AuthContextProvider>
-      <UserDataContextProvider>
-        <MainComponent />
-      </UserDataContextProvider>
-    </AuthContextProvider>
+    <UserDataContextProvider>
+      <AuthContextProvider>
+          <MainComponent />
+      </AuthContextProvider>
+    </UserDataContextProvider>
   );
 }

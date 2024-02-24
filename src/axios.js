@@ -5,4 +5,4 @@ const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
 });
 
-export default axiosInstance;
+export default axiosInstance

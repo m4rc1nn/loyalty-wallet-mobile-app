@@ -19,8 +19,7 @@ export default function Login() {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo.user);
-      sendUserCredentials(userInfo.idToken, userInfo.email, userInfo.name)
+      sendUserCredentials(userInfo.idToken, 'ygyf')
         .then((res) => {
           if (res !== 'error') {
             setUser(res);

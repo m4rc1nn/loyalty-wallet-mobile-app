@@ -2,6 +2,9 @@
 import React, {createContext, useState, useEffect, useContext} from 'react'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
+// Contexts
+import { UserDataContext } from './UserDataContext';
+
 // Env variables
 import {
 	GOOGLE_WEB_CLIENT_ID,
@@ -21,20 +24,23 @@ GoogleSignin.configure({
 export const AuthContext = createContext([]);
 
 export default function AuthContextProvider({children}) {
+  const { setUser } = useContext(UserDataContext);
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const silentLogIn = async () => {
     try {
       const userInfo = await GoogleSignin.signInSilently();
-      sendUserCredentials(userInfo.idToken, userInfo.user.email, userInfo.user.name)
-        // .then((res) => {
-        //   if (res !== 'error') {
-        //     setUser(res);
-        //     setLoggedIn(true);
-        //     setLoading(false);
-        //   }
-        // })
+      sendUserCredentials(userInfo.idToken, userInfo.user.email)
+        .then((res) => {
+          if (res !== 'error') {
+            setUser(res);
+            setLoggedIn(true);
+            setLoading(false);
+          } else {
+            throw new Error('Backend server error');
+          }
+        }); 
     } catch (error) {
       console.error(error);
       setLoading(false);
