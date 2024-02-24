@@ -6,7 +6,7 @@ export const sendUserCredentials = async (idToken, email) => {
     email: email
   }).then((response) => {
     if (response.status === 200) {
-      setUserBearerToken(response.token);
+      setUserBearerToken(response.data.token);
       return response.data.user;
     }
   }).catch((err) => {

@@ -10,6 +10,9 @@ import { UserDataContext } from '../../../contexts/UserDataContext';
 // Scripts
 import { displayUsersFirstName } from './helper';
 
+// Components
+import GenerateTempCodeButton from '../../../components/GenerateTempCodeButton';
+
 export default function UserCards() {
   const { setLoggedIn } = useContext(AuthContext);
   const { user } = useContext(UserDataContext);
@@ -36,11 +39,15 @@ export default function UserCards() {
       <View style={styles.userCardsContainer}>
         
       </View>
+      <GenerateTempCodeButton />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   userCardsContainer: {
     flex: 1,
     justifyContent: 'center',
