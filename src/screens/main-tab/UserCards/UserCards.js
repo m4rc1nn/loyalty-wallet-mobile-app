@@ -3,18 +3,22 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 
 // Contexts
-import { AuthContext } from '../../../contexts/AuthContext';
 import { UserDataContext } from '../../../contexts/UserDataContext';
-
-// Scripts
-import { displayUsersFirstName } from './helper';
+import { UserCardsContext } from '../../../contexts/UserCardsContext';
 
 // Components
 import GenerateTempCodeButton from '../../../components/temp-code/GenerateTempCodeButton';
 
+// Scripts
+import { getUserCards } from './helper';
+
 export default function UserCards() {
-  const { setLoggedIn } = useContext(AuthContext);
   const { user } = useContext(UserDataContext);
+  const { userCards, setUserCards } = useContext(UserCardsContext);
+
+  useEffect(() => {
+    setUserCards(getUserCards());
+  }, []);
 
   return (
     <View style={styles.container}>

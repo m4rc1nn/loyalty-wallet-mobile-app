@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React, { useContext } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UserCards from '../../screens/main-tab/UserCards/UserCards';

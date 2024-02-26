@@ -6,10 +6,6 @@ export const UserDataContext = createContext([]);
 export default function UserDataContextProvider({children}) {
   const [user, setUser] = useState(false);
 
-  useEffect(() => {
-    
-  }, []);
-  
   // Save user to local storage
   const storeUserData = async (user) => {
     try {

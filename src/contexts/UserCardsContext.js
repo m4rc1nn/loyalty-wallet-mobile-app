@@ -7,7 +7,7 @@ export default function UserCardsContextProvider({children}) {
   const [userCards, setUserCards] = useState([]);
 
   useEffect(() => {
-    setUserCards(getUserCards);
+    setUserCards(getUserCards());
   }, []);
   
   // Save userCards to local storage
@@ -24,7 +24,7 @@ export default function UserCardsContextProvider({children}) {
   const getUserCards = async () => {
     try {
       const stringifiedUserCards = await AsyncStorage.getItem('userCards');
-      return stringifiedUserCards != null ? JSON.parse(stringifiedUserCards) : null;
+      return stringifiedUserCards != null ? JSON.parse(stringifiedUserCards) : [];
     } catch (e) {
       console.log(e)
     }
