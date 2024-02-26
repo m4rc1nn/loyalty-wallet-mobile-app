@@ -1,7 +1,6 @@
 // Libraries & Components
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React, { useContext, useEffect } from 'react'
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 // Contexts
 import { AuthContext } from '../../../contexts/AuthContext';
@@ -17,25 +16,8 @@ export default function UserCards() {
   const { setLoggedIn } = useContext(AuthContext);
   const { user } = useContext(UserDataContext);
 
-  const signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      setLoggedIn(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <View style={styles.topBar}>
-        <Text>
-          Cześć, {displayUsersFirstName(user.name)}
-        </Text>
-        <Pressable onPress={signOut}>
-          <Text>Sign out</Text>
-        </Pressable>
-      </View>
       <View style={styles.userCardsContainer}>
         
       </View>
