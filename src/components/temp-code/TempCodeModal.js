@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, StyleSheet, Text, Pressable, View, ActivityIndicator } from 'react-native';
 
 import axiosInstance from '../../axios';
 
+import CodeLifetimeIndicator from './CodeLifetimeIndicator';
+
+import { getRemainingSeconds } from './helper';
+
 export default TempCodeModal = ({code, showModal, setShowModal, changeTempCode}) => {
   const [codeGenerating, setCodeGenerating] = useState(false);
+  const [allowGeneratingNewCode, setAllowGeneratingNewCode] = useState(false);
 
   const generateNewCode = async () => {
     setCodeGenerating(true);
@@ -14,6 +19,7 @@ export default TempCodeModal = ({code, showModal, setShowModal, changeTempCode})
           code: response.data.tempCode.code,
           expires: response.data.tempCode.expires
         });
+        setAllowGeneratingNewCode(false);
         setCodeGenerating(false);
       })
       .catch((error) => {
@@ -37,14 +43,15 @@ export default TempCodeModal = ({code, showModal, setShowModal, changeTempCode})
                 <View style={styles.modalTextView}>
                   <Text style={styles.modalLabelText}>Twój tymczasowy kod</Text>
                   <Text style={styles.code}>{code.code}</Text>
+                  <CodeLifetimeIndicator expirationDate={code.expires} show={showModal} setAllowGeneratingNewCode={setAllowGeneratingNewCode} />
                 </View>
               )
             }
             
             <Pressable
-              style={[styles.button, codeGenerating ? styles.buttonInactive : styles.buttonActive]}
+              style={[styles.button, codeGenerating || getRemainingSeconds(code.expires) > 30 ? styles.buttonInactive : styles.buttonActive]}
               onPress={generateNewCode}
-              disabled={codeGenerating}
+              disabled={codeGenerating || !allowGeneratingNewCode}
             >
               <Text style={styles.textStyle}>Wygeneruj nowy kod</Text>
             </Pressable>
@@ -98,10 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '800',
     letterSpacing: 1,
-    marginBottom: 16
+    marginBottom: 8
   },
   modalTextView: {
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%'
   },
   buttonActive: {
     backgroundColor: '#2196F3'
