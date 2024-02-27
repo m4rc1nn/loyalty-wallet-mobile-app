@@ -18,8 +18,7 @@ import { sendUserCredentials } from '../scripts/initialLogin';
 GoogleSignin.configure({
 	webClientId: GOOGLE_WEB_CLIENT_ID,
 	androidClientId: GOOGLE_ANDROID_CLIENT_ID,
-	iosClientId: GOOGLE_IOS_CLIENT_ID,
-  scopes: ['profile', 'email']
+	iosClientId: GOOGLE_IOS_CLIENT_ID
 });
 
 export const AuthContext = createContext([]);
@@ -34,7 +33,7 @@ export default function AuthContextProvider({children}) {
       const userInfo = await GoogleSignin.signInSilently();
       sendUserCredentials(userInfo.idToken, userInfo.user.email)
         .then((res) => {
-          if (res !== 'error') {
+          if (res === 'SUCCESS') {
             setUser(res);
             setLoggedIn(true);
             setLoading(false);
@@ -50,7 +49,7 @@ export default function AuthContextProvider({children}) {
   }
 
   useEffect(() => {
-    silentLogIn();
+    //silentLogIn();
   }, [])
   
   return (
