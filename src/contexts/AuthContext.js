@@ -33,7 +33,7 @@ export default function AuthContextProvider({children}) {
       const userInfo = await GoogleSignin.signInSilently();
       sendUserCredentials(userInfo.idToken, userInfo.user.email)
         .then((res) => {
-          if (res === 'SUCCESS') {
+          if (res !== 'error') {
             setUser(res);
             setLoggedIn(true);
             setLoading(false);
@@ -49,7 +49,7 @@ export default function AuthContextProvider({children}) {
   }
 
   useEffect(() => {
-    //silentLogIn();
+    silentLogIn();
   }, [])
   
   return (

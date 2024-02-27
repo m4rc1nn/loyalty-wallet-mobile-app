@@ -1,12 +1,13 @@
 // Libraries & Components
-import { StyleSheet, Text, View, Pressable } from 'react-native'
-import React, { useContext, useEffect } from 'react'
+import { StyleSheet, View, Pressable } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { Surface, Text, Icon, Button } from 'react-native-paper';
 
 // Contexts
 import { UserDataContext } from '../../../contexts/UserDataContext';
 import { UserCardsContext } from '../../../contexts/UserCardsContext';
 
-// Components
+// My Components
 import GenerateTempCodeButton from '../../../components/temp-code/GenerateTempCodeButton';
 
 // Scripts
@@ -17,13 +18,44 @@ export default function UserCards() {
   const { userCards, setUserCards } = useContext(UserCardsContext);
 
   useEffect(() => {
-    setUserCards(getUserCards());
+    getUserCards().then((response) => {
+      if (response !== 'error') {
+        setUserCards(response);
+      } else {
+        console.error('API fetch error');
+      }
+    });
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.userCardsContainer}>
-        
+        { 
+          userCards.length ? (
+            userCards.map((card) => {
+              return (
+                <Pressable 
+                  key={card.id}
+                  style={styles.cardItem}
+                  
+                >
+                  <View style={styles.cardHeader}>
+                    <Text variant="titleLarge">
+                      {card.company.name}
+                    </Text>
+                    <Icon size={32} source="swim" />
+                  </View>
+                  <View style={styles.cardContent}>
+                    <Text variant="bodyLarge">Points: {card.points}</Text>
+                    <Text>huj</Text>
+                  </View>
+                </Pressable>
+              )
+            })
+          ) : (
+            <Text>No cards.</Text>
+          )
+        }
       </View>
       <GenerateTempCodeButton />
     </View>
@@ -36,16 +68,26 @@ const styles = StyleSheet.create({
   },
   userCardsContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  topBar: {
-    position: 'absolute',
-    width: '100%',
-    top: 0,
+  cardItem: {
+    width: '90%',
+    marginTop: 15,
+    height: 150,
+    padding: 15,
+    justifyContent: 'space-between',
+    borderRadius: 30,
+    backgroundColor: '#f1e9f2',
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  cardIcon: {
+    paddingRight: 15
+  },
+  cardContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 12,
-
   }
 })

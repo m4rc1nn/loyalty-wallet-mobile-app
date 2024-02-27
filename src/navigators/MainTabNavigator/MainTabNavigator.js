@@ -28,10 +28,10 @@ export default function MainTabNavigator() {
         title: 'Cześć, ' + displayUsersFirstName(user.name)
       }}
     >
-      <Tab.Screen name="Karty" component={UserCards}  />
-      <Tab.Screen name="Karty2" component={UserCards}  />
-      <Tab.Screen name="Karty3" component={UserCards}  />
-      <Tab.Screen name="Karty4" component={UserCards}  />
+      <Tab.Screen name="Karty" tabBarBadge="Karty" component={UserCards}  />
+      <Tab.Screen name="Karty2" tabBarBadge="Karty2" component={UserCards}  />
+      <Tab.Screen name="Karty3" tabBarLabel="Karty3" component={UserCards}  />
+      <Tab.Screen name="Karty4" tabBarLabel="Karty4" component={UserCards}  />
     </Tab.Navigator>
   )
 }
