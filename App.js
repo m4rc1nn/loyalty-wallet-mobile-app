@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import MainComponent from './src/components/MainComponent';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
 // Contexts
@@ -9,14 +10,16 @@ import UserCardsContextProvider from './src/contexts/UserCardsContext';
 
 export default function App() {
   return (
-    <PaperProvider>
-      <UserDataContextProvider>
-        <UserCardsContextProvider>
-          <AuthContextProvider>
-            <MainComponent />
-          </AuthContextProvider>
-        </UserCardsContextProvider>
-      </UserDataContextProvider>
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1}}>
+      <PaperProvider>
+        <UserDataContextProvider>
+          <UserCardsContextProvider>
+            <AuthContextProvider>
+              <MainComponent />
+            </AuthContextProvider>
+          </UserCardsContextProvider>
+        </UserDataContextProvider>
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 }
