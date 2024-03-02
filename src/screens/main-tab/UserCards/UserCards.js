@@ -1,7 +1,7 @@
 // Libraries & Components
 import { StyleSheet, View } from 'react-native';
 import React, { useContext, useEffect } from 'react';
-import { Text } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
 
 // Contexts
 import { UserDataContext } from '../../../contexts/UserDataContext';
@@ -17,6 +17,7 @@ import { getUserCards } from './helper';
 export default function UserCards() {
   const { user } = useContext(UserDataContext);
   const { userCards, setUserCards } = useContext(UserCardsContext);
+  const { colors } = useTheme();
 
   useEffect(() => {
     getUserCards().then((response) => {
@@ -30,11 +31,15 @@ export default function UserCards() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.lighterBackground}]}>
         { 
           userCards.length ? (
             <View>
-              <Text variant="titleLarge">Sport</Text>
+              <Text 
+                variant="titleLarge"
+              >
+                Sport
+                </Text>
               <CardsCorusel cards={userCards}/>
             </View>
           ) : (

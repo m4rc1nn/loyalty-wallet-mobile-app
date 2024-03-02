@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, StyleSheet, Text, Pressable, View, ActivityIndicator } from 'react-native';
+// Libraries & Components
+import React, { useState } from 'react';
+import { Modal, StyleSheet, Pressable, View, ActivityIndicator } from 'react-native';
+import { useTheme, Text } from 'react-native-paper';
 
-import axiosInstance from '../../axios';
-
+// My Components
 import CodeLifetimeIndicator from './CodeLifetimeIndicator';
 
+// Scripts & Helpers
 import { getRemainingSeconds } from './helper';
+import axiosInstance from '../../axios';
 
 export default TempCodeModal = ({code, showModal, setShowModal, changeTempCode}) => {
   const [codeGenerating, setCodeGenerating] = useState(false);
   const [allowGeneratingNewCode, setAllowGeneratingNewCode] = useState(false);
+
+  const { colors, dark } = useTheme();
 
   const generateNewCode = async () => {
     setCodeGenerating(true);
@@ -34,8 +39,8 @@ export default TempCodeModal = ({code, showModal, setShowModal, changeTempCode})
         visible={showModal}
         onRequestClose={() => setShowModal(!showModal)}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={[styles.centeredView, dark ? { backgroundColor: 'rgba(255, 255, 255, 0.3)' } : { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
+          <View style={[styles.modalView, {backgroundColor: colors.lighterBackground}]}>
             {
               codeGenerating ? (
                 <ActivityIndicator size="large" color="#0000ff" style={{marginBottom: 25}}/>
@@ -49,7 +54,10 @@ export default TempCodeModal = ({code, showModal, setShowModal, changeTempCode})
             }
             
             <Pressable
-              style={[styles.button, codeGenerating || getRemainingSeconds(code.expires) > 30 ? styles.buttonInactive : styles.buttonActive]}
+              style={[
+                styles.button, 
+                codeGenerating || !allowGeneratingNewCode ? {backgroundColor: colors.darkerPrimary, opacity: 0.7} : {backgroundColor: colors.primary}
+              ]}
               onPress={generateNewCode}
               disabled={codeGenerating || !allowGeneratingNewCode}
             >
@@ -66,10 +74,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
   },
   modalView: {
-    backgroundColor: 'white',
     justifyContent: 'flex-end',
     minHeight: 200,
     width: '100%',
@@ -111,11 +117,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%'
   },
-  buttonActive: {
-    backgroundColor: '#2196F3'
-  },
-  buttonInactive: {
-    backgroundColor: '#0e65ab',
-    opacity: 0.7
-  }
 });

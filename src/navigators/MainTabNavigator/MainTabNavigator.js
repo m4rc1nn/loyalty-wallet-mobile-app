@@ -2,36 +2,62 @@ import { StyleSheet } from 'react-native'
 import React, { useContext } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UserCards from '../../screens/main-tab/UserCards/UserCards';
+import { useTheme } from 'react-native-paper';
 
 import { UserDataContext } from '../../contexts/UserDataContext';
 
 import { displayUsersFirstName } from './helper';
 
+import { Feather } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+
 const Tab = createBottomTabNavigator();
 
 export default function MainTabNavigator() {
   const {user} = useContext(UserDataContext);
+  const { colors } = useTheme();
   return (
     <Tab.Navigator screenOptions={{
-        // header: () => {
-        //   return (
-        //     <View style={styles.topBar}>
-        //       <Text>
-        //         Cześć, {displayUsersFirstName(user.name)}
-        //       </Text>
-        //       <Pressable onPress={signOut}>
-        //         <Text>Sign out</Text>
-        //       </Pressable>
-        //     </View>
-        //   )
-        // }
         title: 'Cześć, ' + displayUsersFirstName(user.name)
       }}
     >
-      <Tab.Screen name="Karty" tabBarBadge="Karty" component={UserCards}  />
-      <Tab.Screen name="Karty2" tabBarBadge="Karty2" component={UserCards}  />
-      <Tab.Screen name="Karty3" tabBarLabel="Karty3" component={UserCards}  />
-      <Tab.Screen name="Karty4" tabBarLabel="Karty4" component={UserCards}  />
+      <Tab.Screen 
+        name="Cards"
+        options={{
+          tabBarLabel: "Karty",
+          tabBarActiveTintColor: colors.primary,
+          tabBarIcon: ({color}) => <Feather name="credit-card" size={26} color={color} />
+        }}    
+        component={UserCards}  
+      />
+      <Tab.Screen 
+        name="Rewards"
+        options={{
+          tabBarLabel: "Nagrody",
+          tabBarActiveTintColor: colors.primary,
+          tabBarIcon: ({color}) => <Feather name="gift" size={26} color={color} />
+        }}    
+        component={UserCards}  
+      />
+      <Tab.Screen 
+        name="Partners"
+        options={{
+          tabBarLabel: "Nasi partnerzy",
+          tabBarActiveTintColor: colors.primary,
+          tabBarIcon: ({color}) => <FontAwesome6 name="people-line" size={26} color={color}/>
+        }}    
+        component={UserCards}  
+      />
+      <Tab.Screen 
+        name="More"
+        options={{
+          tabBarLabel: "Więcej",
+          tabBarActiveTintColor: colors.primary,
+          tabBarIcon: ({color}) => <Entypo name="dots-three-horizontal" size={26} color={color} />
+        }}    
+        component={UserCards}  
+      />
     </Tab.Navigator>
   )
 }

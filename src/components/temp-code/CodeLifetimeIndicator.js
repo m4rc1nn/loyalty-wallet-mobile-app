@@ -1,9 +1,9 @@
 import { StyleSheet, Animated, View } from 'react-native'
-import { ProgressBar } from 'react-native-paper';
-import React, { useEffect, useState, useRef } from 'react'
+import { ProgressBar, useTheme } from 'react-native-paper';
+import React, { useEffect, useRef } from 'react'
 
 // Scripts
-import { getRemainingSeconds, countProgress, getPositiveValueOnly, getNegativeValueOnly } from './helper';
+import { getRemainingSeconds, countProgress } from './helper';
 
 // ProgressBar helper constants 
 const MAX_CODE_DURATION = 60;
@@ -24,8 +24,10 @@ class ClassProgressBar extends React.Component {
 // Animatable instance of ProgressBar
 const AnimatedProgressBar = Animated.createAnimatedComponent(ClassProgressBar);
 
-export default function CodeLifetimeIndicator({expirationDate, show, setAllowGeneratingNewCode}) {
+export default function CodeLifetimeIndicator({expirationDate, setAllowGeneratingNewCode}) {
   const { current: progressBarValue } = useRef(new Animated.Value(1));
+
+  const { colors } = useTheme();
 
   const runAnimation = () => {
     const secondsLeft = getRemainingSeconds(expirationDate);
@@ -46,7 +48,8 @@ export default function CodeLifetimeIndicator({expirationDate, show, setAllowGen
   return (
     <View style={styles.container}>
       <AnimatedProgressBar 
-        style={styles.progressBar}
+        style={[styles.progressBar, {backgroundColor: colors.lighterSurface}]}
+        
         animatedValue={progressBarValue}
         fillStyle={{
           backgroundColor: progressBarValue.interpolate({

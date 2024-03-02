@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, View, Pressable } from 'react-native'
+import { Text, useTheme } from 'react-native-paper';
 import React, { useState } from 'react';
 
 import axiosInstance from '../../axios';
@@ -9,6 +10,8 @@ import TempCodeModal from './TempCodeModal';
 export default function GenerateTempCodeButton() {
   const [tempCode, setTempCode] = useState({code: null, expires: null});
   const [showModal, setShowModal] = useState(false);
+
+  const { colors } = useTheme();
 
   const showTempCode = async () => {
     if (tempCode && new Date(tempCode.expires) > new Date()) {
@@ -34,10 +37,11 @@ export default function GenerateTempCodeButton() {
       <Pressable
         style={({pressed}) => [
           {
-            backgroundColor: pressed ? '#28a665' : '#33c479',
+            backgroundColor: pressed ? colors.darkerPrimary : colors.primary,
           },
           styles.button,
         ]}
+        elevation={14}
         onPress={showTempCode}
       >
         <Text style={styles.buttonText}>Pokaż kod</Text>

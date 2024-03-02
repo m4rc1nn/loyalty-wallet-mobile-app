@@ -1,10 +1,11 @@
 import React from 'react';
 import { Dimensions, View, StyleSheet, Pressable } from 'react-native';
-import { Text, Icon } from 'react-native-paper';
+import { Text, Icon, Button, useTheme } from 'react-native-paper';
 import Carousel from 'react-native-reanimated-carousel';
  
 export default function CardsCarousel({cards}) {
   const width = Dimensions.get('window').width;
+  const { colors } = useTheme();
     return (
         <Carousel
             loop={false}
@@ -18,8 +19,8 @@ export default function CardsCarousel({cards}) {
             renderItem={({ index }) => (
                 <Pressable 
                   key={cards[index].id}
-                  style={styles.itemContainer}
-                  elevation={10}
+                  style={[styles.itemContainer, { backgroundColor: colors.surface}]}
+                  elevation={5}
                 >
                   <View style={styles.cardHeader}>
                     <Text variant="titleLarge">
@@ -51,7 +52,6 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: 'space-between',
     borderRadius: 30,
-    backgroundColor: '#f1e9f2',
   },
   cardHeader: {
     flexDirection: 'row',
