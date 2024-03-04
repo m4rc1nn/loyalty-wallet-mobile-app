@@ -1,5 +1,7 @@
 import axiosInstance from "../../../axios";
 
+import "core-js/actual/array/group-by";
+
 export const getUserCards = async () => {
   return await axiosInstance.get('/cards')
     .then((response) => {
@@ -9,4 +11,8 @@ export const getUserCards = async () => {
       console.error(error.response);
       return 'error';
     })
+}
+
+export const groupCards = (cards) => {
+  return cards.groupBy(({company}) => company.categoryId);
 }

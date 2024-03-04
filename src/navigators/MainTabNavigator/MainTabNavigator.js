@@ -19,14 +19,14 @@ export default function MainTabNavigator() {
   const { colors } = useTheme();
   return (
     <Tab.Navigator screenOptions={{
-        title: 'Cześć, ' + displayUsersFirstName(user.name)
+        title: 'Cześć, ' + displayUsersFirstName(user.name),
+        tabBarActiveTintColor: colors.primary,
       }}
     >
       <Tab.Screen 
         name="Cards"
         options={{
           tabBarLabel: "Karty",
-          tabBarActiveTintColor: colors.primary,
           tabBarIcon: ({color}) => <Feather name="credit-card" size={26} color={color} />
         }}    
         component={UserCards}  
@@ -35,7 +35,6 @@ export default function MainTabNavigator() {
         name="Rewards"
         options={{
           tabBarLabel: "Nagrody",
-          tabBarActiveTintColor: colors.primary,
           tabBarIcon: ({color}) => <Feather name="gift" size={26} color={color} />
         }}    
         component={UserCards}  
@@ -44,7 +43,6 @@ export default function MainTabNavigator() {
         name="Partners"
         options={{
           tabBarLabel: "Nasi partnerzy",
-          tabBarActiveTintColor: colors.primary,
           tabBarIcon: ({color}) => <FontAwesome6 name="people-line" size={26} color={color}/>
         }}    
         component={UserCards}  
@@ -53,7 +51,6 @@ export default function MainTabNavigator() {
         name="More"
         options={{
           tabBarLabel: "Więcej",
-          tabBarActiveTintColor: colors.primary,
           tabBarIcon: ({color}) => <Entypo name="dots-three-horizontal" size={26} color={color} />
         }}    
         component={UserCards}  
